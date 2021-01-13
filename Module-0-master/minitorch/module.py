@@ -1,6 +1,6 @@
 ## Task 0.4
 ## Modules
-
+import copy
 
 class Module:
     """
@@ -22,13 +22,17 @@ class Module:
 
     def train(self):
         "Set the mode of this module and all descendent modules to `train`."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        self.mode = "train"
+
+        for module in self.modules():
+            module.train()
 
     def eval(self):
         "Set the mode of this module and all descendent modules to `eval`."
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        self.mode = "eval"
+
+        for module in self.modules():
+            module.eval()
 
     def named_parameters(self):
         """
@@ -38,8 +42,15 @@ class Module:
         Returns:
             dict: Each name (key) and :class:`Parameter` (value) under this module.
         """
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError('Need to implement for Task 0.4')
+        this_parameters = copy.deepcopy(self._parameters)
+
+        for child_key in self._modules:
+            child_parameters = self._modules[child_key].named_parameters()
+
+            for param_key, param_value in child_parameters.items():
+                this_parameters[child_key + '.' + param_key] = param_value
+
+        return this_parameters
 
     def parameters(self):
         return self.named_parameters().values()

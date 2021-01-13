@@ -11,3 +11,9 @@
 ```
 python run_tests.py
 ```
+
+## Task 5
+<img src="images/simple.png">
+<img src="images/split.png">
+<img src="images/xor.png">
+
